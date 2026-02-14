@@ -1,16 +1,16 @@
 package com.example.biblioteca.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Emprestimo {
 
     int id;
     int livro_id;
     int usuario_id;
-    Date data_emprestimo;
-    Date data_devolucao;
+    LocalDate data_emprestimo;
+    LocalDate data_devolucao;
 
-    public Emprestimo(int id, int livro_id, int usuario_id, Date data_emprestimo, Date data_devolucao) {
+    public Emprestimo(int id, int livro_id, int usuario_id, LocalDate data_emprestimo, LocalDate data_devolucao) {
         this.id = id;
         this.livro_id = livro_id;
         this.usuario_id = usuario_id;
@@ -42,19 +42,19 @@ public class Emprestimo {
         this.usuario_id = usuario_id;
     }
 
-    public Date getData_emprestimo() {
+    public LocalDate getData_emprestimo() {
         return data_emprestimo;
     }
 
-    public void setData_emprestimo(Date data_emprestimo) {
+    public void setData_emprestimo(LocalDate data_emprestimo) {
         this.data_emprestimo = data_emprestimo;
     }
 
-    public Date getData_devolucao() {
+    public LocalDate getData_devolucao() {
         return data_devolucao;
     }
 
-    public void setData_devolucao(Date data_devolucao) {
+    public void setData_devolucao(LocalDate data_devolucao) {
         this.data_devolucao = data_devolucao;
     }
 }

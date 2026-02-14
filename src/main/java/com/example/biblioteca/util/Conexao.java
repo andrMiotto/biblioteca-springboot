@@ -8,7 +8,7 @@ public class Conexao {
 
     private static String URL = "jdbc:mysql://localhost:3306/biblioteca";
     private static String USER = "root";
-    private static String SENHA = " ";
+    private static String SENHA = "";
 
 
     public static Connection conectar ()throws SQLException{

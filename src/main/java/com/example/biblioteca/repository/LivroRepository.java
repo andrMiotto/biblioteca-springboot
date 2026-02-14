@@ -1,13 +1,13 @@
 package com.example.biblioteca.repository;
 
 import com.example.biblioteca.model.Livro;
-import com.example.biblioteca.model.Usuario;
 import com.example.biblioteca.util.Conexao;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class LivroRepository {
 
@@ -21,10 +21,9 @@ public class LivroRepository {
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
 
-            stmt.setInt(1, livro.getId());
-            stmt.setString(2, livro.getTitulo());
-            stmt.setString(3, livro.getAutor());
-            stmt.setInt(4, livro.getAno_publicacao());
+            stmt.setString(1, livro.getTitulo());
+            stmt.setString(2, livro.getAutor());
+            stmt.setInt(3, livro.getAno_publicacao());
 
 
             stmt.executeUpdate();
@@ -59,7 +58,7 @@ public class LivroRepository {
                 int ano_publicacao = rs.getInt("ano_publicacao");
 
 
-                Livro livro = new Livro(id, titulo, autor,ano_publicacao);
+                Livro livro = new Livro(id, titulo, autor, ano_publicacao);
                 livros.add(livro);
             }
         }
@@ -67,7 +66,7 @@ public class LivroRepository {
         return livros;
     }
 
-    public Livro listLivroId(Livro livro) throws SQLException {
+    public Livro listLivroId(int id) throws SQLException {
 
         String query = "SELECT id,titulo,autor,ano_publicacao FROM livro where id = ?";
 
@@ -77,55 +76,53 @@ public class LivroRepository {
         try (Connection connection = Conexao.conectar();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1, livro.getId());
+            stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                id = rs.getInt("id");
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
                 int ano_publicacao = rs.getInt("ano_publicacao");
 
-                return new Livro(id, titulo, autor,ano_publicacao);
+                return new Livro(id, titulo, autor, ano_publicacao);
             }
         }
         return null;
     }
 
 
-    public void deleteLivro(int id)throws SQLException{
+    public void deleteLivro(int id) throws SQLException {
 
         String query = "DELETE FROM livro where id = ?";
 
-        try(Connection connection = Conexao.conectar();
-            PreparedStatement stmt = connection.prepareStatement(query)){
+        try (Connection connection = Conexao.conectar();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1,id);
+            stmt.setInt(1, id);
 
         }
 
     }
 
 
+    public Livro updateLivro(Livro livro, int id) throws SQLException {
+        String query = "UPDATE livro SET titulo = ?, autor = ?, ano_publicacao = ? WHERE id = ?";
 
-    public void updateLivro(Livro livro)throws SQLException{
-        String query = "UPDATE livro SET titulo,autor,ano_publicacao VALUES (?,?)";
 
+        try (Connection connection = Conexao.conectar();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
 
-        try(Connection connection = Conexao.conectar();
-            PreparedStatement stmt = connection.prepareStatement(query)){
-
-            stmt.setLong(1, livro.getId());
-            stmt.setString(2, livro.getTitulo());
-            stmt.setString(3, livro.getAutor());
-            stmt.setInt(4, livro.getAno_publicacao());
+            stmt.setString(1, livro.getTitulo());
+            stmt.setString(2, livro.getAutor());
+            stmt.setInt(3, livro.getAno_publicacao());
+            stmt.setLong(4, id);
 
             stmt.executeUpdate();
         }
 
 
-
-
+        return livro;
     }
 
 }

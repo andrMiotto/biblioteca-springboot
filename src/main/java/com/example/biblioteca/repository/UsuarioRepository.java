@@ -21,9 +21,8 @@ public class UsuarioRepository {
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
 
-            stmt.setInt(1, usuario.getId());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getEmail());
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
 
             stmt.executeUpdate();
 
@@ -64,7 +63,7 @@ public class UsuarioRepository {
         return usuarios;
     }
 
-    public Usuario listUsuarioId(Usuario usuario) throws SQLException {
+    public Usuario listUsuarioId(int id) throws SQLException {
 
         String query = "SELECT id,nome,email FROM usuario where id = ?";
 
@@ -74,11 +73,11 @@ public class UsuarioRepository {
         try (Connection connection = Conexao.conectar();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1, usuario.getId());
+            stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                id = rs.getInt("id");
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
 
@@ -89,7 +88,7 @@ public class UsuarioRepository {
     }
 
 
-    public void deleteUser(int id)throws SQLException{
+    public Usuario deleteUser(int id)throws SQLException{
 
         String query = "DELETE FROM usuario where id = ?";
 
@@ -97,30 +96,31 @@ public class UsuarioRepository {
         PreparedStatement stmt = connection.prepareStatement(query)){
 
             stmt.setInt(1,id);
+            stmt.executeUpdate();
 
         }
 
+        return null;
     }
 
 
 
-    public void updateUser(Usuario usuario)throws SQLException{
-        String query = "UPDATE usuario SET nome,email VALUES (?,?)";
+    public Usuario updateUser(Usuario usuario, int id)throws SQLException{
+        String query = "UPDATE usuario SET nome = ?, email = ? WHERE id = ?";
 
 
         try(Connection connection = Conexao.conectar();
         PreparedStatement stmt = connection.prepareStatement(query)){
 
-            stmt.setLong(1, usuario.getId());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getEmail());
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setInt(3, id);
 
             stmt.executeUpdate();
         }
 
 
-
-
+        return usuario;
     }
 
 
