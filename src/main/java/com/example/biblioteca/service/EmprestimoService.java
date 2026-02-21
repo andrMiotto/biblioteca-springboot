@@ -13,14 +13,6 @@ public class EmprestimoService {
         return emprestimoRepository.createEmprestimo(emprestimo);
     }
 
-    public Emprestimo createEmprestimo(Emprestimo emprestimo) throws SQLException {
-        return emprestimoRepository.createEmprestimo(emprestimo);
-    }
-    public Emprestimo createEmprestimo(Emprestimo emprestimo) throws SQLException {
-        return emprestimoRepository.createEmprestimo(emprestimo);
-    }
-    public Emprestimo createEmprestimo(Emprestimo emprestimo) throws SQLException {
-        return emprestimoRepository.createEmprestimo(emprestimo);
-    }
+
 
 }

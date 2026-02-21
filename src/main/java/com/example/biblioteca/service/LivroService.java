@@ -1,35 +1,44 @@
 package com.example.biblioteca.service;
 
+import com.example.biblioteca.dto.livro.LivroRequisicaoDTO;
+import com.example.biblioteca.dto.livro.LivroRespostaDTO;
+import com.example.biblioteca.mapper.LivroMapper;
 import com.example.biblioteca.model.Livro;
-import com.example.biblioteca.model.Usuario;
 import com.example.biblioteca.repository.LivroRepository;
-import com.example.biblioteca.repository.UsuarioRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class LivroService {
 
-    LivroRepository livroRepository = new LivroRepository();
-    public Livro createLivro(Livro livro)throws SQLException {
-        return livroRepository.createLivro(livro);
+    private final LivroRepository livroRepository;
+    private final LivroMapper livroMapper;
+
+    public LivroService(LivroRepository livroRepository, LivroMapper livroMapper) {
+        this.livroRepository = livroRepository;
+        this.livroMapper = livroMapper;
     }
 
-    public List<Livro> listAllLivro()throws SQLException {
+    public LivroRespostaDTO createLivro(LivroRequisicaoDTO livroRequisicaoDTO) throws SQLException {
+        Livro livro = livroMapper.paraEntidade(livroRequisicaoDTO);
+        return livroMapper.paraRespostaDTO( livroRepository.createLivro(livro));
+    }
+
+    public List<Livro> listAllLivro() throws SQLException {
         return livroRepository.listAllLivro();
     }
-    public Livro listLivroId(int id)throws SQLException {
+
+    public Livro listLivroId(int id) throws SQLException {
         return livroRepository.listLivroId(id);
     }
-    public void deleteLivro(int id)throws SQLException {
+
+    public void deleteLivro(int id) throws SQLException {
         livroRepository.deleteLivro(id);
     }
-    public Livro updateLivro(Livro livro, int id)throws SQLException {
-        return livroRepository.updateLivro(livro,id);
+
+    public Livro updateLivro(Livro livro, int id) throws SQLException {
+        return livroRepository.updateLivro(livro, id);
     }
-
-
-
 
 
 }
