@@ -1,6 +1,8 @@
 package com.example.biblioteca.controller;
 
 
+import com.example.biblioteca.dto.usuario.UsuarioRequisicaoDTO;
+import com.example.biblioteca.dto.usuario.UsuarioRespostaDTO;
 import com.example.biblioteca.model.Usuario;
 import com.example.biblioteca.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +14,21 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-    UsuarioService usuarioService =  new UsuarioService();
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @PostMapping
-    public Usuario createUser(@RequestBody Usuario usuario) throws SQLException {
+    public UsuarioRespostaDTO createUser(@RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO) throws SQLException {
 
-        return usuarioService.createUsuario(usuario);
+        return usuarioService.createUsuario(usuarioRequisicaoDTO);
 
     }
 
     @GetMapping("/listarTodos")
-    public List<Usuario> listAllUsuarios() throws SQLException {
+    public List<UsuarioRespostaDTO> listAllUsuarios() throws SQLException {
 
         return usuarioService.listAll();
 
@@ -30,7 +36,7 @@ public class UsuarioController {
 
 
     @GetMapping("/listarId/{id}")
-    public Usuario listUsuarioID(@PathVariable("id") int id) throws SQLException {
+    public UsuarioRespostaDTO listUsuarioID(@PathVariable("id") int id) throws SQLException {
         return usuarioService.listUsuarioId(id);
     }
 
@@ -40,8 +46,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public void atualizar(@PathVariable int id, @RequestBody Usuario usuario) throws SQLException {
-        usuarioService.updateUsuario(usuario,id);
+    public UsuarioRespostaDTO atualizar(@PathVariable int id, @RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO) throws SQLException {
+        return usuarioService.updateUsuario(usuarioRequisicaoDTO,id);
     }
 
 }

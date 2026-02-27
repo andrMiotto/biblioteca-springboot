@@ -14,15 +14,14 @@ public class EmprestimoRepository {
 
     public Emprestimo createEmprestimo(Emprestimo emprestimo) throws SQLException {
 
-        String query = "INSERT INTO emprestimo (livro_id, usuario_id, data_emprestimo, data_devolucao) VALUES (?,?,?,?)";
+        String query = "INSERT INTO emprestimo (livro_id, usuario_id, data_emprestimo) VALUES (?,?,?)";
 
         try (Connection connection = Conexao.conectar();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, emprestimo.getLivro_id());
             stmt.setInt(2, emprestimo.getUsuario_id());
-            stmt.setDate(3, Date.valueOf(emprestimo.getData_emprestimo()));
-            stmt.setDate(4, Date.valueOf(emprestimo.getData_devolucao()));
+            stmt.setDate(3, new java.sql.Date(emprestimo.getData_emprestimo().getTime()));
 
             stmt.executeUpdate();
 
@@ -50,8 +49,8 @@ public class EmprestimoRepository {
                         rs.getInt("id"),
                         rs.getInt("livro_id"),
                         rs.getInt("usuario_id"),
-                        rs.getDate("data_emprestimo").toLocalDate(),
-                        rs.getDate("data_devolucao").toLocalDate()
+                        rs.getDate("data_emprestimo"),
+                        rs.getDate("data_devolucao")
                 );
 
                 emprestimos.add(emprestimo);
@@ -77,8 +76,8 @@ public class EmprestimoRepository {
                         rs.getInt("id"),
                         rs.getInt("livro_id"),
                         rs.getInt("usuario_id"),
-                        rs.getDate("data_emprestimo").toLocalDate(),
-                        rs.getDate("data_devolucao").toLocalDate()
+                        rs.getDate("data_emprestimo"),
+                        rs.getDate("data_devolucao")
                 );
             }
         }
@@ -86,7 +85,7 @@ public class EmprestimoRepository {
         return null;
     }
 
-    public void updateEmprestimo(Emprestimo emprestimo) throws SQLException {
+    public Emprestimo updateEmprestimo(Emprestimo emprestimo,int id) throws SQLException {
 
         String query = "UPDATE emprestimo SET livro_id = ?, usuario_id = ?, data_emprestimo = ?, data_devolucao = ? WHERE id = ?";
 
@@ -95,12 +94,14 @@ public class EmprestimoRepository {
 
             stmt.setInt(1, emprestimo.getLivro_id());
             stmt.setInt(2, emprestimo.getUsuario_id());
-            stmt.setDate(3, Date.valueOf(emprestimo.getData_emprestimo()));
-            stmt.setDate(4, Date.valueOf(emprestimo.getData_devolucao()));
+            stmt.setDate(3, new java.sql.Date(emprestimo.getData_emprestimo().getTime()));
+            stmt.setDate(4, new java.sql.Date(emprestimo.getData_devolucao().getTime()));
             stmt.setInt(5, emprestimo.getId());
 
             stmt.executeUpdate();
         }
+
+        return emprestimo;
     }
 
     public void deleteEmprestimo(int id) throws SQLException {

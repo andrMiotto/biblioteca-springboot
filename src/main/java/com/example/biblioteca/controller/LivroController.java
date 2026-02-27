@@ -41,9 +41,9 @@ public class LivroController {
     public void deleteLivroId(@PathVariable("id") int id) throws SQLException {
         livroService.deleteLivro(id);
     }
-/*
+
     @PutMapping("/atualizar/{id}")
-    public void atualizarLivro(@PathVariable int id, @RequestBody Livro livro) throws SQLException {
-        livroService.updateLivro(livro,id);
-    }*/
+    public LivroRespostaDTO atualizarLivro(@PathVariable int id, @RequestBody LivroRequisicaoDTO livroRequisicaoDTO) throws SQLException {
+        return livroService.updateLivro(livroRequisicaoDTO, id);
+    }
 }

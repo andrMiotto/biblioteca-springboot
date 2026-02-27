@@ -8,7 +8,6 @@ import com.example.biblioteca.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,8 +44,12 @@ public class LivroService {
         livroRepository.deleteLivro(id);
     }
 
-    public Livro updateLivro(Livro livro, int id) throws SQLException {
-        return livroRepository.updateLivro(livro, id);
+    public LivroRespostaDTO updateLivro(LivroRequisicaoDTO livroRequisicaoDTO,int id) throws SQLException {
+        Livro livro = livroMapper.paraEntidade(livroRequisicaoDTO);
+        livro.setId(id);
+
+        Livro salvo = livroRepository.updateLivro(livro, livro.getId());
+        return livroMapper.paraRespostaDTO(salvo);
     }
 
 
