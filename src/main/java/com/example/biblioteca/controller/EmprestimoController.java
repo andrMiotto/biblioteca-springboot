@@ -3,6 +3,7 @@ package com.example.biblioteca.controller;
 import com.example.biblioteca.dto.emprestimo.EmprestimoRequisicaoDTO;
 import com.example.biblioteca.dto.emprestimo.EmprestimoRespostaDTO;
 import com.example.biblioteca.service.EmprestimoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public class EmprestimoController {
     }
 
     @PostMapping
-    public EmprestimoRespostaDTO createLivro(@RequestBody EmprestimoRequisicaoDTO emprestimoRequisicaoDTO) throws SQLException {
+    public EmprestimoRespostaDTO createLivro(@Valid @RequestBody EmprestimoRequisicaoDTO emprestimoRequisicaoDTO) throws SQLException {
         return emprestimoService.createEmprestimo(emprestimoRequisicaoDTO);
     }
 
@@ -42,7 +43,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public EmprestimoRespostaDTO atualizarEmprestimo(@PathVariable int id, @RequestBody EmprestimoRequisicaoDTO emprestimoRequisicaoDTO) throws SQLException {
+    public EmprestimoRespostaDTO atualizarEmprestimo(@PathVariable int id, @Valid @RequestBody EmprestimoRequisicaoDTO emprestimoRequisicaoDTO) throws SQLException {
         return emprestimoService.updateEmprestimo(emprestimoRequisicaoDTO, id);
     }
 
